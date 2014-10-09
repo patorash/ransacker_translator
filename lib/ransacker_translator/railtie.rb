@@ -1,5 +1,6 @@
 require 'rails/railtie'
 require 'ransacker_translator/models/concerns/ransacker_translator'
+require 'ransacker_translator/controllers/concerns/format_ransack_parameters'
 require 'ransacker_translator/view_helpers'
 
 module RansackerTranslator
