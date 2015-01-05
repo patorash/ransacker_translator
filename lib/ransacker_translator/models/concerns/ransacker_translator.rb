@@ -11,7 +11,10 @@ module RansackerTranslator
           double_byte_char = '－０１２３４５６７８９ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ　！＃＄％＆￥；：'
           Arel::Nodes::NamedFunction.new("UPPER",
                                          [Arel::Nodes::NamedFunction.new("TRANSLATE",
-                                                                         [parent.table[column], double_byte_char, single_byte_char])])
+                                                                         [parent.table[column],
+                                                                          double_byte_char,
+                                                                          single_byte_char].map { |it| Arel::Nodes.build_quoted(it) })
+          ])
         end
       end
     end
