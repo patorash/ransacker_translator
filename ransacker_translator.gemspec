@@ -23,14 +23,12 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
-
   spec.add_dependency "ransack"
 
-  spec.add_development_dependency "bundler", "~> 2.1"
-  spec.add_development_dependency "rake", "~> 13.0"
-  spec.add_development_dependency "rspec", "~> 3.0"
+  spec.add_development_dependency "sqlite3", '~> 1.0'
+  spec.add_development_dependency "rspec-rails", "~> 3.0"
+  spec.add_development_dependency 'combustion', '~> 1.3'
   spec.add_development_dependency 'pry', '~> 0'
   spec.add_development_dependency 'database_cleaner', '~> 1.7'
-  spec.add_development_dependency 'combustion', '~> 1.0'
   spec.add_development_dependency 'rspec_junit_formatter', '~> 0.4.1'
 end
