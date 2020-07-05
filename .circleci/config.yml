@@ -13,11 +13,31 @@ executors:
       - image: circleci/postgres:11.2-alpine-postgis-ram
 
 commands:
+  bundle_install:
+    parameters:
+      rails_version:
+        default: '6.0'
+        type: enum
+        enum: ['5.0', '5.1', '5.2', '6.0']
+    steps:
+      - run: gem install bundler --version=2.1.4 -N
+      - run:
+          name: bundle install
+          command: |
+            export BUNDLE_GEMFILE=$PWD/gemfiles/rails_<< parameters.rails_version >>.gemfile
+            bundle check || bundle install --jobs=4 --retry=3
+
   rspec:
+    parameters:
+      rails_version:
+        default: '6.0'
+        type: enum
+        enum: ['5.0', '5.1', '5.2', '6.0']
     steps:
       - run:
           name: run tests
           command: |
+            export BUNDLE_GEMFILE=$PWD/gemfiles/rails_<< parameters.rails_version >>.gemfile
             mkdir /tmp/test-results
             TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | \
               circleci tests split --split-by=timings)"
@@ -28,6 +48,7 @@ commands:
               --out /tmp/test-results/rspec.xml \
               --format progress \
               $TEST_FILES
+
   run_test:
     parameters:
       rails_version:
@@ -36,13 +57,10 @@ commands:
         enum: ['5.0', '5.1', '5.2', '6.0']
     steps:
       - checkout
-      - run: gem install bundler --version=2.1.4 -N
-      - run:
-          name: bundle install
-          command: |
-            export BUNDLE_GEMFILE=$PWD/gemfiles/rails_<< parameters.rails_version >>.gemfile
-            bundle check || bundle install --jobs=4 --retry=3
-      - rspec
+      - bundle_install:
+          rails_version: << parameters.rails_version >>
+      - rspec:
+          rails_version: << parameters.rails_version >>
       # collect reports
       - store_test_results:
           path: /tmp/test-results
