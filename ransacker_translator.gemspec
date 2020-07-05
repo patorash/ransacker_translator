@@ -23,9 +23,10 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
+  spec.add_dependency "rails", ">= 5.0.0"
   spec.add_dependency "ransack"
+  spec.add_dependency "pg"
 
-  spec.add_development_dependency "sqlite3", '~> 1.0'
   spec.add_development_dependency "rspec-rails", "~> 3.0"
   spec.add_development_dependency 'combustion', '~> 1.3'
   spec.add_development_dependency 'pry', '~> 0'
