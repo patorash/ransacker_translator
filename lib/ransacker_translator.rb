@@ -1,1 +1,4 @@
-require 'ransacker_translator/railtie' if defined? Rails
+require 'ransacker_translator/version'
+require 'ransacker_translator/railtie'
+module RansackerTranslator
+end

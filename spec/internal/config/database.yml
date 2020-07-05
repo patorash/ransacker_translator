@@ -1,0 +1,7 @@
+test:
+  adapter: postgresql
+  encoding: unicode
+  user: postgres
+  host: localhost
+  database: ransacker_translator
+  min_messages: WARNING

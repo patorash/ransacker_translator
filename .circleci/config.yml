@@ -1,0 +1,201 @@
+version: 2.1
+
+executors:
+  ruby:
+    parameters:
+      ruby_version:
+        default: '2.7.1'
+        type: enum
+        enum: ['2.5.8', '2.6.6', '2.7.1']
+    working_directory: ~/repo
+    docker:
+      - image: circleci/ruby:<< parameters.ruby_version >>-node-browsers
+      - image: circleci/postgres:11.2-alpine-postgis-ram
+
+commands:
+  bundle_install:
+    parameters:
+      rails_version:
+        default: '6.0'
+        type: enum
+        enum: ['5.0', '5.1', '5.2', '6.0']
+    steps:
+      - run: gem install bundler --version=2.1.4 -N
+      - run:
+          name: bundle install
+          command: |
+            export BUNDLE_GEMFILE=$PWD/gemfiles/rails_<< parameters.rails_version >>.gemfile
+            bundle check || bundle install --jobs=4 --retry=3
+
+  rspec:
+    parameters:
+      rails_version:
+        default: '6.0'
+        type: enum
+        enum: ['5.0', '5.1', '5.2', '6.0']
+    steps:
+      - run:
+          name: run tests
+          command: |
+            export BUNDLE_GEMFILE=$PWD/gemfiles/rails_<< parameters.rails_version >>.gemfile
+            mkdir /tmp/test-results
+            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | \
+              circleci tests split --split-by=timings)"
+
+            bundle exec rspec \
+              --format progress \
+              --format RspecJunitFormatter \
+              --out /tmp/test-results/rspec.xml \
+              --format progress \
+              $TEST_FILES
+
+  run_test:
+    parameters:
+      rails_version:
+        default: '6.0'
+        type: enum
+        enum: ['5.0', '5.1', '5.2', '6.0']
+    steps:
+      - checkout
+      - bundle_install:
+          rails_version: << parameters.rails_version >>
+      - rspec:
+          rails_version: << parameters.rails_version >>
+      # collect reports
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
+
+jobs:
+  test:
+    parameters:
+      ruby_version:
+        type: enum
+        enum: ['2.5.8', '2.6.6', '2.7.1']
+      rails_version:
+        type: enum
+        enum: ['5.0', '5.1', '5.2', '6.0']
+    executor:
+      name: ruby
+      ruby_version: << parameters.ruby_version >>
+    parallelism: 1
+    steps:
+      - run_test:
+          rails_version: << parameters.rails_version >>
+
+  release:
+    executor:
+      name: ruby
+    parallelism: 1
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "e7:e8:17:c5:03:05:fd:0c:0e:9b:3b:d3:90:53:c6:5c"
+      - run: gem install bundler --version=2.1.4 -N
+      - run:
+          name: bundle install
+          command: bundle check || bundle install --jobs=4 --retry=3
+      - run:
+          name: RubyGems.org | Set credential
+          command: |
+            mkdir -p ~/.gem
+            echo ":rubygems_api_key: $RUBYGEMS_API_KEY" > ~/.gem/credentials
+            chmod 0600 ~/.gem/credentials
+      - run:
+          name: Setup git
+          command: |
+            git config push.default current
+            git config user.email "chariderpato@gmail.com"
+            git config user.name "patorash"
+      - run:
+          name: rake release
+          command: |
+            set +e
+            filename=$(for n in *; do printf '%s\n' "$n"; done | grep gemspec)
+            gem_name=`ruby -e "require 'rubygems'; spec = Gem::Specification::load('${filename}'); puts spec.name"`
+            gem_version=`ruby -e "require 'rubygems'; spec = Gem::Specification::load('${filename}'); puts spec.version"`
+            gem list --prerelease --all --remote $gem_name \
+              | grep -E "^${gem_name}" \
+              | sed -e "s/^.*(\(.*\)).*\$/\1/" \
+              | grep -q -v $gem_version
+            result=$?
+            if [ $result = 0 ]; then
+              bundle exec rake build
+              bundle exec rake release
+            fi
+      - run:
+          name: Delete credentials
+          command: |
+            shred -u ~/.gem/credentials
+
+workflows:
+  build:
+    jobs:
+      - test:
+          name: 'Ruby 2.5.8-Rails 5.0'
+          ruby_version:  '2.5.8'
+          rails_version: '5.0'
+      - test:
+          name: 'Ruby 2.6.6-Rails 5.0'
+          ruby_version:  '2.6.6'
+          rails_version: '5.0'
+      - test:
+          name: 'Ruby 2.7.1-Rails 5.0'
+          ruby_version:  '2.7.1'
+          rails_version: '5.0'
+      - test:
+          name: 'Ruby 2.5.8-Rails 5.1'
+          ruby_version:  '2.5.8'
+          rails_version: '5.1'
+      - test:
+          name: 'Ruby 2.6.6-Rails 5.1'
+          ruby_version:  '2.6.6'
+          rails_version: '5.1'
+      - test:
+          name: 'Ruby 2.7.1-Rails 5.1'
+          ruby_version:  '2.7.1'
+          rails_version: '5.1'
+      - test:
+          name: 'Ruby 2.5.8-Rails 5.2'
+          ruby_version:  '2.5.8'
+          rails_version: '5.2'
+      - test:
+          name: 'Ruby 2.6.6-Rails 5.2'
+          ruby_version:  '2.6.6'
+          rails_version: '5.2'
+      - test:
+          name: 'Ruby 2.7.1-Rails 5.2'
+          ruby_version:  '2.7.1'
+          rails_version: '5.2'
+      - test:
+          name: 'Ruby 2.5.8-Rails 6.0'
+          ruby_version:  '2.5.8'
+          rails_version: '6.0'
+      - test:
+          name: 'Ruby 2.6.6-Rails 6.0'
+          ruby_version:  '2.6.6'
+          rails_version: '6.0'
+      - test:
+          name: 'Ruby 2.7.1-Rails 6.0'
+          ruby_version:  '2.7.1'
+          rails_version: '6.0'
+      - release:
+          requires:
+            - 'Ruby 2.5.8-Rails 5.0'
+            - 'Ruby 2.6.6-Rails 5.0'
+            - 'Ruby 2.7.1-Rails 5.0'
+            - 'Ruby 2.5.8-Rails 5.1'
+            - 'Ruby 2.6.6-Rails 5.1'
+            - 'Ruby 2.7.1-Rails 5.1'
+            - 'Ruby 2.5.8-Rails 5.2'
+            - 'Ruby 2.6.6-Rails 5.2'
+            - 'Ruby 2.7.1-Rails 5.2'
+            - 'Ruby 2.5.8-Rails 6.0'
+            - 'Ruby 2.6.6-Rails 6.0'
+            - 'Ruby 2.7.1-Rails 6.0'
+          filters:
+            branches:
+              only: master
