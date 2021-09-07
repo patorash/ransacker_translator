@@ -13,6 +13,7 @@
 .ruby-version
 Gemfile.lock
 .circleci/config.processed.yml
+.docker/
 
 /gemfiles/*.gemfile.lock
 /gemfiles/.bundle
