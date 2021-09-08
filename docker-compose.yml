@@ -4,9 +4,7 @@ services:
   postgres:
     image: postgres:13.3-alpine
     volumes:
-      - .dockerdev/.psqlrc:/root/.psqlrc:ro
       - .docker/pg_data:/var/lib/postgresql/data
-      - ./log:/root/log:cached
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
       POSTGRES_INITDB_ARGS: "--locale=C --encoding=UTF-8"
