@@ -93,7 +93,7 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints:
-            - "87:5c:17:c7:de:fe:be:56:03:28:50:2c:78:4f:b5:34"
+            - "8b:7b:b8:cb:19:c2:40:af:39:d4:71:32:00:0d:f1:62"
       - run: gem install bundler --version=2.1.4 -N
       - run:
           name: bundle install
