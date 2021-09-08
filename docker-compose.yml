@@ -1,0 +1,17 @@
+version: '3.3'
+
+services:
+  postgres:
+    image: postgres:13.3-alpine
+    volumes:
+      - .docker/pg_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_INITDB_ARGS: "--locale=C --encoding=UTF-8"
+      TZ: "/usr/share/zoneinfo/Asia/Tokyo"
+      PSQL_HISTFILE: /root/log/.psql_history
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres", "-h", "127.0.0.1"]
+      interval: 5s
