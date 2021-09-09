@@ -4,9 +4,9 @@ executors:
   ruby:
     parameters:
       ruby_version:
-        default: '2.7.4'
+        default: '3.0.2'
         type: enum
-        enum: ['2.5.9', '2.6.8', '2.7.4']
+        enum: ['2.5.9', '2.6.8', '2.7.4', '3.0.2']
     working_directory: ~/repo
     docker:
       - image: circleci/ruby:<< parameters.ruby_version >>-node-browsers
@@ -73,7 +73,7 @@ jobs:
     parameters:
       ruby_version:
         type: enum
-        enum: ['2.5.9', '2.6.8', '2.7.4']
+        enum: ['2.5.9', '2.6.8', '2.7.4', '3.0.2']
       rails_version:
         type: enum
         enum: ['5.0', '5.1', '5.2', '6.0', '6.1']
@@ -183,6 +183,10 @@ workflows:
           ruby_version:  '2.7.4'
           rails_version: '6.0'
       - test:
+          name: 'Ruby 3.0.2-Rails 6.0'
+          ruby_version:  '3.0.2'
+          rails_version: '6.0'
+      - test:
           name: 'Ruby 2.5.9-Rails 6.1'
           ruby_version:  '2.5.9'
           rails_version: '6.1'
@@ -193,6 +197,10 @@ workflows:
       - test:
           name: 'Ruby 2.7.4-Rails 6.1'
           ruby_version:  '2.7.4'
+          rails_version: '6.1'
+      - test:
+          name: 'Ruby 3.0.2-Rails 6.1'
+          ruby_version:  '3.0.2'
           rails_version: '6.1'
       - release:
           requires:
@@ -208,9 +216,11 @@ workflows:
             - 'Ruby 2.5.9-Rails 6.0'
             - 'Ruby 2.6.8-Rails 6.0'
             - 'Ruby 2.7.4-Rails 6.0'
+            - 'Ruby 3.0.2-Rails 6.0'
             - 'Ruby 2.5.9-Rails 6.1'
             - 'Ruby 2.6.8-Rails 6.1'
             - 'Ruby 2.7.4-Rails 6.1'
+            - 'Ruby 3.0.2-Rails 6.1'
           filters:
             branches:
               only: master
