@@ -17,13 +17,26 @@ RSpec.configure do |config|
   end
 
   config.before :suite do
+    # system('dropdb --host=localhost --port=5432 --username=postgres --if-exists ransacker_translator', exception: true)
+    # system('createdb --owner=postgres --host=localhost --port=5432 --username=postgres ransacker_translator', exception: true)
+    database_name = 'ransacker_translator'
     ActiveRecord::Base.establish_connection(
       adapter: 'postgresql',
       host: 'localhost',
       username: 'postgres',
-      database: 'ransacker_translator',
+      database: 'postgres',
+      port: 5432,
     )
-
+    ActiveRecord::Base.connection.execute("DROP DATABASE IF EXISTS #{database_name}")
+    ActiveRecord::Base.connection.execute("CREATE DATABASE #{database_name}")
+    ActiveRecord::Base.connection_pool.disconnect!
+    ActiveRecord::Base.establish_connection(
+      adapter: 'postgresql',
+      host: 'localhost',
+      username: 'postgres',
+      database: database_name,
+      port: 5432,
+    )
     ActiveRecord::Schema.define do
       create_table(:posts, force: true) do |t|
         t.string :title, null: false, default: ''
