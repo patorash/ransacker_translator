@@ -1,3 +1,5 @@
+require 'active_support'
+
 module RansackerTranslator
   module FormatRansackParameters
     extend ActiveSupport::Concern

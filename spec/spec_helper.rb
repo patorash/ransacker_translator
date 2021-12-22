@@ -2,11 +2,8 @@ require 'bundler'
 
 Bundler.require :default, :development
 
-# If you're using all parts of Rails:
-Combustion.initialize! :active_record, :action_controller, :action_view
-
+require 'active_record'
 require 'ransack'
-require 'rspec/rails'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -20,6 +17,22 @@ RSpec.configure do |config|
   end
 
   config.before :suite do
+    ActiveRecord::Base.establish_connection(
+      adapter: 'postgresql',
+      host: 'localhost',
+      username: 'postgres',
+      database: 'ransacker_translator',
+    )
+
+    ActiveRecord::Schema.define do
+      create_table(:posts, force: true) do |t|
+        t.string :title, null: false, default: ''
+        t.text :content, null: false, default: ''
+
+        t.timestamps
+      end
+    end
+
     DatabaseCleaner.strategy = :truncation
   end
   config.before :each do

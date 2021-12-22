@@ -1,4 +1,5 @@
 require 'nkf'
+require 'active_support'
 
 module RansackerTranslator
   extend ActiveSupport::Concern
