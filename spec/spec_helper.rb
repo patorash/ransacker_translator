@@ -4,11 +4,8 @@ Bundler.require :default, :development
 
 # If you're using all parts of Rails:
 Combustion.initialize! :active_record, :action_controller, :action_view
-require 'active_support'
-ActiveSupport::Dependencies.autoload_paths << '../lib'
 
 require 'ransack'
-
 require 'rspec/rails'
 
 RSpec.configure do |config|
