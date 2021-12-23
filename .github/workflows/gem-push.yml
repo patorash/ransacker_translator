@@ -3,7 +3,7 @@ name: Ruby Gem
 on:
   workflow_run:
     workflows:
-      - Ruby
+      - Test
     types:
       - completed
     branches: [ master ]

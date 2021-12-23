@@ -1,5 +1,7 @@
 # ransacker_translator
 
+[![Test](https://github.com/patorash/ransacker_translator/actions/workflows/test.yml/badge.svg)](https://github.com/patorash/ransacker_translator/actions/workflows/test.yml)
+
 ransacker_translatorは、ransackを使った検索で半角全角カナ、半角全角英数字、アルファベットの大文字小文字で関係なく検索できるようにするためのgemです。
 マルチバイト圏に住んでいる我々のために作りました。
 
