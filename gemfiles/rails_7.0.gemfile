@@ -1,0 +1,10 @@
+source 'https://rubygems.org'
+
+gem 'activerecord', '~> 7.0.0'
+gem 'activesupport', '~> 7.0.0'
+gem 'actionview', '~> 7.0.0'
+gem 'railties', '~> 7.0.0'
+gem 'pg', '~> 1.2'
+gem 'ransack', github: 'activerecord-hackery/ransack'
+
+gemspec path: '../'
