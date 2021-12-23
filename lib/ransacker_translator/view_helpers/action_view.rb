@@ -7,11 +7,7 @@ module RansackerTranslator
       # @param [Symbol] key ransackで使っているキー
       # @return [String] params[:q][key]を半角スペースでつなげた文字列
       def ransack_params_array_to_s(key)
-        if params[:q].present? && params[:q][key].present?
-          params[:q][key].join(' ')
-        else
-          ''
-        end
+        params.dig(:q, key)&.join(' ') || ''
       end
 
       # ransacker_translatorでOR検索に使うキーを返す

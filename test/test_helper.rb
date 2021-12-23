@@ -1,10 +1,14 @@
 require 'minitest/autorun'
 require 'active_record'
 require 'active_support'
+require 'action_view'
+require 'action_view/template'
+require 'action_view/test_case'
 require 'database_cleaner'
 require 'ransack'
 require 'ransacker_translator'
-require_relative './internal/app/models/post'
+require 'ransacker_translator/view_helpers/action_view'
+require 'internal/app/models/post'
 
 database_name = 'ransacker_translator'
 pg_host = ENV.fetch('POSTGRES_HOST', 'localhost')
@@ -41,3 +45,7 @@ ActiveRecord::Schema.define do
 end
 
 DatabaseCleaner.strategy = :truncation
+
+class ActionView::TestCase
+  include RansackerTranslator::ViewHelpers::ActionView
+end
