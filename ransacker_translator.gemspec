@@ -31,8 +31,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "ransack"
   spec.add_dependency "pg"
 
-  spec.add_development_dependency "rspec", "~> 3.0"
-  spec.add_development_dependency 'pry', '~> 0'
+  spec.add_development_dependency 'pry', '~> 0.14'
   spec.add_development_dependency 'database_cleaner', '~> 1.7'
-  spec.add_development_dependency 'rspec_junit_formatter', '~> 0.4.1'
 end
