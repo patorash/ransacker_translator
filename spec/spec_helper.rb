@@ -1,9 +1,8 @@
-require 'bundler'
-
-Bundler.require :default, :development
-
 require 'active_record'
+require 'active_support'
+require 'database_cleaner'
 require 'ransack'
+require 'ransacker_translator'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
