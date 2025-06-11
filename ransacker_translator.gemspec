@@ -30,13 +30,13 @@ Gem::Specification.new do |spec|
   spec.add_dependency "railties", '< 7.2.0', '>= 6.1.0'
   spec.add_dependency "ransack", '>= 4.1.0'
   spec.add_dependency "pg", '~> 1.2'
-  spec.add_dependency "nkf"
+  spec.add_dependency "nkf", '~> 0.1'
 
   spec.add_development_dependency 'pry', '~> 0.14'
   spec.add_development_dependency 'database_cleaner', '~> 2.1'
-  spec.add_development_dependency "mutex_m"
-  spec.add_development_dependency "bigdecimal"
-  spec.add_development_dependency "base64"
-  spec.add_development_dependency "drb"
+  spec.add_development_dependency "mutex_m", '~> 0.1'
+  spec.add_development_dependency "bigdecimal", '~> 3.0' 
+  spec.add_development_dependency "base64", '~> 0.1'
+  spec.add_development_dependency "drb", '~> 2.0'
   spec.add_development_dependency "concurrent-ruby", '1.3.4'
 end
