@@ -29,7 +29,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "actionview", '< 7.2.0', '>= 6.1.0'
   spec.add_dependency "railties", '< 7.2.0', '>= 6.1.0'
   spec.add_dependency "ransack", '>= 4.1.0'
-  spec.add_dependency "pg"
+  spec.add_dependency "pg", '~> 1.2'
   spec.add_dependency "nkf"
 
   spec.add_development_dependency 'pry', '~> 0.14'
