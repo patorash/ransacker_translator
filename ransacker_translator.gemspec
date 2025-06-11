@@ -33,7 +33,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "nkf"
 
   spec.add_development_dependency 'pry', '~> 0.14'
-  spec.add_development_dependency 'database_cleaner', '~> 1.7'
+  spec.add_development_dependency 'database_cleaner', '~> 2.1'
   spec.add_development_dependency "mutex_m"
   spec.add_development_dependency "bigdecimal"
   spec.add_development_dependency "base64"
