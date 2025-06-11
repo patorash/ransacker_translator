@@ -38,4 +38,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bigdecimal"
   spec.add_development_dependency "base64"
   spec.add_development_dependency "drb"
+  spec.add_development_dependency "concurrent-ruby", '1.3.4'
 end
