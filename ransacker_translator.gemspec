@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
   spec.summary     = "expand search by ransack"
   spec.description = "expand search by ransack"
   spec.license     = "MIT"
-  spec.required_ruby_version = Gem::Requirement.new(">= 2.6.0")
+  spec.required_ruby_version = Gem::Requirement.new(">= 3.0.0")
 
   # s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
   spec.files = Dir["{lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
@@ -24,11 +24,11 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
-  spec.add_dependency "activerecord", '< 7.2.0', '>= 5.0.0'
-  spec.add_dependency "activesupport", '< 7.2.0', '>= 5.0.0'
-  spec.add_dependency "actionview", '< 7.2.0', '>= 5.0.0'
-  spec.add_dependency "railties", '< 7.2.0', '>= 5.0.0'
-  spec.add_dependency "ransack"
+  spec.add_dependency "activerecord", '< 7.2.0', '>= 6.1.0'
+  spec.add_dependency "activesupport", '< 7.2.0', '>= 6.1.0'
+  spec.add_dependency "actionview", '< 7.2.0', '>= 6.1.0'
+  spec.add_dependency "railties", '< 7.2.0', '>= 6.1.0'
+  spec.add_dependency "ransack", '>= 4.1.0'
   spec.add_dependency "pg"
 
   spec.add_development_dependency 'pry', '~> 0.14'
