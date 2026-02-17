@@ -39,4 +39,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "base64", '~> 0.1'
   spec.add_development_dependency "drb", '~> 2.0'
   spec.add_development_dependency "concurrent-ruby", '1.3.4'
+  spec.add_development_dependency "minitest", "~> 5.26"
 end
