@@ -24,10 +24,10 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
-  spec.add_dependency "activerecord", '< 7.2.0', '>= 6.1.0'
-  spec.add_dependency "activesupport", '< 7.2.0', '>= 6.1.0'
-  spec.add_dependency "actionview", '< 7.2.0', '>= 6.1.0'
-  spec.add_dependency "railties", '< 7.2.0', '>= 6.1.0'
+  spec.add_dependency "activerecord", '< 8.2.0', '>= 6.1.0'
+  spec.add_dependency "activesupport", '< 8.2.0', '>= 6.1.0'
+  spec.add_dependency "actionview", '< 8.2.0', '>= 6.1.0'
+  spec.add_dependency "railties", '< 8.2.0', '>= 6.1.0'
   spec.add_dependency "ransack", '>= 4.1.0'
   spec.add_dependency "pg", '~> 1.2'
   spec.add_dependency "nkf", '~> 0.1'
@@ -39,4 +39,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "base64", '~> 0.1'
   spec.add_development_dependency "drb", '~> 2.0'
   spec.add_development_dependency "concurrent-ruby", '1.3.4'
+  spec.add_development_dependency "minitest", "~> 5.26"
 end
